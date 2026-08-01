@@ -178,9 +178,9 @@ jobs:
             echo "============================================================"
             echo " RAPPORT DIAGNOSTIC HTML VERS APK"
             echo "============================================================"
-            echo "Application : Shortfactory V1"
+            echo "Application : Shortfactory V2"
             echo "Package     : dev.ghostbuilderdev.shortfactory.shortfactoryv1.a0h9azoz"
-            echo "Version     : 1.0.0 (207757608)"
+            echo "Version     : 1.0.0 (207759514)"
             echo "Date UTC    : $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             echo "Dépôt       : ${{ github.repository }}"
             echo "Branche     : ${{ github.ref_name }}"
@@ -350,13 +350,13 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p apk-output
-          APK_FILE="apk-output/Shortfactory-V1-dev.ghostbuilderdev.shortfactory.shortfactoryv1.a0h9azoz-v207757608-debug.apk"
+          APK_FILE="apk-output/Shortfactory-V2-dev.ghostbuilderdev.shortfactory.shortfactoryv1.a0h9azoz-v207759514-debug.apk"
           cp generated/app/build/outputs/apk/debug/app-debug.apk "$APK_FILE"
 
           {
             echo "APK=$APK_FILE"
             echo "PACKAGE_ATTENDU=dev.ghostbuilderdev.shortfactory.shortfactoryv1.a0h9azoz"
-            echo "VERSION_CODE_ATTENDU=207757608"
+            echo "VERSION_CODE_ATTENDU=207759514"
             echo "SHA256=$(sha256sum "$APK_FILE" | awk '{print $1}')"
             "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK_FILE" | head -n 8
             "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$APK_FILE"
@@ -366,13 +366,13 @@ jobs:
           ACTUAL_VERSION=$("$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK_FILE" | awk -F"'" '/^package: name=/{print $4; exit}')
 
           [ "$ACTUAL_PACKAGE" = "dev.ghostbuilderdev.shortfactory.shortfactoryv1.a0h9azoz" ] || exit 1
-          [ "$ACTUAL_VERSION" = "207757608" ] || exit 1
+          [ "$ACTUAL_VERSION" = "207759514" ] || exit 1
 
       - name: Publier l’APK comme artefact
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Shortfactory-V1-apk
+          name: Shortfactory-V2-apk
           path: |
             apk-output/*.apk
             apk-output/apk-verification.txt
